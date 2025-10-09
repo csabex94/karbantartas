@@ -4,10 +4,15 @@ from fastapi.responses import JSONResponse
 
 from database.database import sessionmanager
 from database.schemas import migrate
+from utils.config import Settings, get_settings
+from utils.security import init_security_utils
 from utils.exception_handler import CustomExceptionHandler
+
+settings: Settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    init_security_utils(settings.api_key_secret)
     await migrate(sessionmanager._engine)
     yield
     if sessionmanager._engine is not None:
