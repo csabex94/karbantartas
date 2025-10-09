@@ -2,10 +2,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel
 from functools import lru_cache
 
-class Settings(BaseModel):
+class Settings(BaseSettings):
     db_url: str
 
-    model_config = SettingsConfigDict(env_file=".env", extra='allow')
+    model_config = SettingsConfigDict(env_file=".env",extra='ignore',case_sensitive=False)
 
 
 settings = Settings()
