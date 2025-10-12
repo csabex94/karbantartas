@@ -1,10 +1,12 @@
 from typing import Any, Optional
-from pydantic import computed_field
+from pydantic import computed_field, model_serializer
 from sqlalchemy import Column
 from sqlmodel import Field, Relationship, SQLModel
 from sqlalchemy.dialects.mysql import LONGTEXT, JSON
 from sqlalchemy.ext.asyncio import AsyncEngine
 from datetime import datetime
+
+from utils.security import SecurityUtils
 
 class UserSchema(SQLModel, table=True):
     __tablename__="users"
@@ -12,16 +14,32 @@ class UserSchema(SQLModel, table=True):
     email: Optional[str] = Field(default=None)
     name: Optional[str] = Field(default=None)
     password: Optional[str] = Field(default=None)
-    api_key: Optional["ApiKeySchema"] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "joined"})
 
 
-class ApiKeySchema(SQLModel, table=True):
-    __tablename__="apikeys"
+    @model_serializer
+    def ser_model(self) -> dict[str, Any]:
+        return {
+            "id": SecurityUtils.hashid_encode(self.id),
+            "email": self.email,
+            "name": self.name
+        }
+
+
+class DepartmentSchema(SQLModel, table=True):
+    __tablename__="departmets"
     id: Optional[int] = Field(default=None, primary_key=True)
-    hashed_key: str = Field(nullable=False, unique=True)
-    encrypted_key: Optional[str] = Field(default=None)
-    user_id: Optional[int] = Field(foreign_key="users.id", default=None)
-    user: Optional["UserSchema"] = Relationship(back_populates="api_key", sa_relationship_kwargs={"lazy": "joined"})
+    name: Optional[str] = Field(default=None)
+    uid: Optional[str] = Field(default=None)
+
+
+class StoreSchema(SQLModel, table=True):
+    __tablename__="stores"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: Optional[str] = Field(default=None)
+    city: Optional[str] = Field(default=None)
+    address: Optional[str] = Field(default=None)
+    uid: Optional[str] = Field(default=None)
+
 
 
 async def migrate(engine: AsyncEngine):
