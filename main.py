@@ -5,7 +5,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from models.request import AppRequest
 from routers.api_router import api_router
 from database.database import sessionmanager
 from database.schemas import migrate

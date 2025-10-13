@@ -6,7 +6,6 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from database.database import get_db_session
 from models.user import User, UserLogin
-from models.request import AppRequest
 from services.authentication import get_current_user, initial_seeding, login_user
 
 api_router = APIRouter(prefix='/api')
