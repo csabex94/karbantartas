@@ -50,17 +50,6 @@ async def custom_exception_handler(request: Request, exception: CustomExceptionH
     return JSONResponse(status_code=exception.status_code, content=exception.content)
 
 @app.middleware("http")
-async def check_auth_cookie(request: AppRequest, call_next):
-    token: str | None = request.cookies.get('access_token', None)
-    print(token)
-    if token != False:
-        jwt_model = Jwt.verify_token(token)
-        request.jwt = jwt_model
-        return await call_next(request)
-    
-    return await call_next(request)
-
-@app.middleware("http")
 async def add_security_headers(request: Request, call_next):
     response: Response = await call_next(request)
     response.headers["X-XSS-Protection"] = "1; mode=block"

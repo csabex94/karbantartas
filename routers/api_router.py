@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, Form
+from fastapi import APIRouter, Depends
 
 from fastapi.responses import JSONResponse
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -13,6 +13,7 @@ api_router = APIRouter(prefix='/api')
 
 db_session_depends = Annotated[AsyncSession, Depends(get_db_session)]
 
+current_user = Annotated[User, Depends(get_current_user)]
 
 @api_router.post('/seed')
 async def seeding(db_session: db_session_depends):
@@ -29,5 +30,5 @@ async def login(db_session: db_session_depends, form: UserLogin) -> JSONResponse
 
 
 @api_router.get('/me')
-async def me(request: AppRequest):
-   return request.jwt.user
+async def me(user: current_user):
+   return user

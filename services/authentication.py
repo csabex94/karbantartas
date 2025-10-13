@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import Depends
+from fastapi import Depends, Cookie
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -11,8 +11,6 @@ from utils.security import SecurityUtils
 from utils.jwt import Jwt
 
 
-bearer_scheme = HTTPBearer()
-token_depends = Annotated[HTTPAuthorizationCredentials, Depends(bearer_scheme)]
 
 async def initial_seeding(db_session: AsyncSession):
     csaba = UserSchema(
@@ -53,6 +51,8 @@ async def login_user(form: UserLogin, db_session: AsyncSession) -> list:
     return [user_json, token]
     
 
-def get_current_user(token: token_depends):
-    jwt_model = Jwt.verify_token(token=token.credentials)
+def get_current_user(access_token: Annotated[str | None, Cookie()]) -> User:
+    if access_token is None:
+        raise CustomExceptionHandler("unauthenticated", "Unauthenticated", 403)
+    jwt_model = Jwt.verify_token(token=access_token)
     return jwt_model.user
