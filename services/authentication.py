@@ -52,7 +52,7 @@ async def login_user(form: UserLogin, db_session: AsyncSession) -> list:
     return [user_json, token]
     
 
-def get_current_user(access_token: Annotated[str | None, Cookie(default=None)]) -> User:
+def get_current_user(access_token: Annotated[str | None, Cookie()]) -> User:
     if access_token is None:
         raise CustomExceptionHandler("unauthenticated", "Unauthenticated", 403)
     jwt_model = Jwt.verify_token(token=access_token)
