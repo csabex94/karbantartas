@@ -3,7 +3,7 @@ import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
 
-DOTENV = os.path.join(os.path.dirname('../'+__file__), ".env")
+DOTENV = os.path.join(os.path.dirname(__file__), "../.env")
 
 class Settings(BaseSettings):
     db_url: str
