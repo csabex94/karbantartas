@@ -5,9 +5,9 @@ import json
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import SHA256
-from models.user import User
-from models.jwt import JwtModel
-from utils.exception_handler import CustomExceptionHandler
+from ..models.user import User
+from ..models.jwt import JwtModel
+from ..utils.exception_handler import CustomExceptionHandler
 
 
 class Jwt:

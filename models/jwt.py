@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
 
-from models.user import User
+from ..models.user import User
 
 class JwtModel(BaseModel):
     iat: Optional[int]

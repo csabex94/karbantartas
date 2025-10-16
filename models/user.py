@@ -1,7 +1,7 @@
 from typing import Any
 from pydantic import BaseModel, model_serializer
 
-from utils.security import SecurityUtils
+from ..utils.security import SecurityUtils
 
 class User(BaseModel):
     id: str

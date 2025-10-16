@@ -6,7 +6,7 @@ from sqlalchemy.dialects.mysql import LONGTEXT, JSON
 from sqlalchemy.ext.asyncio import AsyncEngine
 from datetime import datetime
 
-from utils.security import SecurityUtils
+from ..utils.security import SecurityUtils
 
 class UserSchema(SQLModel, table=True):
     __tablename__="users"

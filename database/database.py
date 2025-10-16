@@ -3,7 +3,7 @@ from typing import Any, AsyncIterator
 from sqlalchemy.ext.asyncio import (AsyncConnection, async_sessionmaker, create_async_engine)
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from utils.config import Settings, get_settings
+from ..utils.config import Settings, get_settings
 
 settings: Settings = get_settings()
 
