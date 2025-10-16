@@ -28,9 +28,9 @@ origins = ["http://localhost:5173"]
 
 app = FastAPI(lifespan=lifespan)
 
-app.mount("/frontend", StaticFiles(directory="frontend/dist"), name="frontend")
+app.mount("/frontend", StaticFiles(directory="./frontend/dist"), name="frontend")
 
-templates = Jinja2Templates(directory='frontend/dist')
+templates = Jinja2Templates(directory='./frontend/dist')
 
 @app.get('/')
 async def app_template(request: Request):
