@@ -13,15 +13,16 @@ from utils.jwt import Jwt
 
 
 async def initial_seeding(db_session: AsyncSession):
+    password = SecurityUtils.password_hash("Arterimpex2017")
     csaba = UserSchema(
         email="nagy.csaba@arterimpex.ro", 
         name="Nagy Csaba",
-        password=SecurityUtils.password_hash("Arterimpex2017")
+        password=password
     )
     zsombi = UserSchema(
         email="sajgo.zsombor@arterimpex.ro", 
         name="Sajgo Zsombor",
-        password=SecurityUtils.password_hash("Arterimpex2017")
+        password=password
     )
     db_session.add(csaba)
     db_session.add(zsombi)

@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Form
 
 from fastapi.responses import JSONResponse
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -21,7 +21,7 @@ async def seeding(db_session: db_session_depends):
 
 
 @api_router.post('/login')
-async def login(db_session: db_session_depends, form: UserLogin) -> JSONResponse:
+async def login(db_session: db_session_depends, form: Annotated[UserLogin, Form()]) -> JSONResponse:
     [user, token] = await login_user(form=form, db_session=db_session)
     response = JSONResponse(content={"user": user})
     response.set_cookie(key='access_token', value=token, httponly=True, secure=False, samesite='none')

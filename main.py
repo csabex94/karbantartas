@@ -5,13 +5,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from routers.api_router import api_router
-from database.database import sessionmanager
-from database.schemas import migrate
-from utils.config import Settings, get_settings
-from utils.security import init_security_utils
-from utils.jwt import Jwt, init_jwt
-from utils.exception_handler import CustomExceptionHandler
+from .routers.api_router import api_router
+from .database.database import sessionmanager
+from .database.schemas import migrate
+from .utils.config import Settings, get_settings
+from .utils.security import init_security_utils
+from .utils.jwt import Jwt, init_jwt
+from .utils.exception_handler import CustomExceptionHandler
 
 settings: Settings = get_settings()
 
