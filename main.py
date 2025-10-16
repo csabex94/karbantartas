@@ -28,14 +28,6 @@ origins = ["http://localhost:5173"]
 
 app = FastAPI(lifespan=lifespan)
 
-app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
-
-templates = Jinja2Templates(directory='frontend')
-
-@app.get('/')
-async def app_template(request: Request):
-    return templates.TemplateResponse(request=request, name="index.html")
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
